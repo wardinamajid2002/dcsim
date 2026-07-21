@@ -1,0 +1,49 @@
+name: Data Infrastructure Simulator CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    # Step 1: Set up toolchains
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # Step 2: Build C++ Library (GCC on Windows runner)
+    - name: Compile C++ Dynamic Library
+      run: |
+        g++ -shared -o backend/thermal_engine.dll cpp_engine/thermal_engine.cpp
+
+    # Step 3: Restore and Build ASP.NET Core Backend
+    - name: Restore Backend Dependencies
+      run: dotnet restore backend/backend.csproj
+
+    - name: Build ASP.NET Core Backend
+      run: dotnet build backend/backend.csproj --configuration Release
+
+    # Step 4: Install and Build Next.js Frontend
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Build Next.js Application
+      run: |
+        cd frontend
+        npm run build

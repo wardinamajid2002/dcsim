@@ -1,0 +1,27 @@
+# Node.js / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+*.log
+
+# .NET / C#
+backend/bin/
+backend/obj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# C++ Build Artifacts / Binaries
+*.dll
+*.so
+*.dylib
+*.exe
+*.o
+*.obj
+cpp_engine/*.dll
+
+# Environment Files
+.env
+.env.local
+.DS_Store
