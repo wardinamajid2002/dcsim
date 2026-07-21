@@ -15,7 +15,7 @@ extern "C" {
 
         // Calculate load percentage per server
         double load_ratio = (double)rps / (active_servers * 300.0);
-        if (load_ratio > 1.0) load_ratio = 1.0;
+        if (load_ratio > 1.2) load_ratio = 1.0;
 
         // Software optimizations reduce active CPU thermal load
         if (cache_enabled) load_ratio *= 0.6;
